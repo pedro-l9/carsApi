@@ -1,26 +1,25 @@
 import { Driver, DAO } from '../types';
+import * as DB from '../repositories/memoryDB';
 
 export function addDriver(driver: Driver): DAO<Driver> {
-  console.log(driver);
-  return {} as DAO<Driver>;
+  return DB.insert('drivers', driver);
 }
 
 export function updateDriver(
   updateData: Partial<Driver>,
   driverId: number
 ): void {
-  console.log(updateData, driverId);
+  return DB.update('drivers', updateData, driverId);
 }
 
 export function deleteDriver(driverId: number): void {
-  console.log(driverId);
+  return DB.remove('drivers', driverId);
 }
 
 export function getDriver(driverId: number): DAO<Driver> | undefined {
-  console.log(driverId);
-  return;
+  return DB.get('drivers', driverId);
 }
 
 export function getAllDrivers(): DAO<Driver>[] {
-  return [];
+  return DB.getAll('drivers');
 }
