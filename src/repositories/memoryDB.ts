@@ -37,12 +37,12 @@ export function update<T extends Item>(
   const currentItem: T | undefined = collectionData[itemId] as T;
 
   if (currentItem !== undefined) {
-    const newItem: T = {
+    const updatedItem: T = {
       ...currentItem,
       ...data,
     };
 
-    collections[collection] = { ...collectionData, [itemId]: newItem };
+    collections[collection] = { ...collectionData, [itemId]: updatedItem };
   }
 }
 

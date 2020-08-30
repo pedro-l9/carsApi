@@ -2,7 +2,7 @@ import * as DB from '../memoryDB';
 import { Driver } from '../../types';
 
 describe('Testing the memoryDB database mockup', () => {
-  const DUMMY_DRIVER = Object.freeze({ name: 'Pedro' });
+  const DUMMY_DRIVER: Driver = Object.freeze({ name: 'Pedro' });
 
   describe('The insert function of the database', () => {
     it('Should insert an Item into the specified collection and return the identified item', () => {
