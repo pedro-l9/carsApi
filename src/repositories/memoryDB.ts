@@ -1,25 +1,22 @@
 import { Car, CarUsage, Driver, DAO } from '../types';
 
-export type Collection = 'cars' | 'drivers' | 'carUsages';
-export type Data = Partial<Car | Driver | CarUsage>;
-export type Item = Car | Driver | CarUsage;
-export type IdentifiedItem = DAO<Car | Driver | CarUsage>;
+type Collection = 'cars' | 'drivers' | 'carUsages';
+type Item = Car | Driver | CarUsage;
 
-type KeyValCollectionStorage = {
-  [key: string]: KeyValStorage;
+type KeyValStorage<T> = {
+  [key: string]: T;
 };
 
-type KeyValStorage = {
-  [key: string]: Item;
+const collections = {
+  cars: {} as KeyValStorage<Car>,
+  drivers: {} as KeyValStorage<Driver>,
+  carUsages: {} as KeyValStorage<CarUsage>,
 };
 
-const collections: KeyValCollectionStorage = {
-  cars: {},
-  drivers: {},
-  carUsages: {},
-};
-
-export function insert(collection: Collection, item: Item): IdentifiedItem {
+export function insert<T extends Item>(
+  collection: Collection,
+  item: T
+): DAO<T> {
   const collectionData = collections[collection];
   const itemId = Object.values(collectionData).length;
 
@@ -31,16 +28,16 @@ export function insert(collection: Collection, item: Item): IdentifiedItem {
   };
 }
 
-export function update(
+export function update<T extends Item>(
   collection: Collection,
-  data: Data,
+  data: Partial<T>,
   itemId: number
 ): void {
   const collectionData = collections[collection];
-  const currentItem: Item | undefined = collectionData[itemId];
+  const currentItem: T | undefined = collectionData[itemId] as T;
 
   if (currentItem !== undefined) {
-    const newItem: Item = {
+    const newItem: T = {
       ...currentItem,
       ...data,
     };
@@ -49,18 +46,24 @@ export function update(
   }
 }
 
-export function get(
+export function get<T extends Item>(
   collection: Collection,
   id: number
-): IdentifiedItem | undefined {
-  const item: Item | undefined = collections[collection][id];
+): undefined | DAO<T> {
+  const item: T | undefined = collections[collection][id] as T;
 
   return item !== undefined ? { ...item, id } : undefined;
 }
 
-export function getAll(collection: Collection): Array<IdentifiedItem> {
-  return Object.values(collections[collection]).map((item, index) => ({
-    ...item,
-    id: index,
-  }));
+export function getAll<T extends Item>(collection: Collection): DAO<T>[] {
+  return Object.values(collections[collection]).map(
+    (item: T, index: number) => ({
+      ...item,
+      id: index,
+    })
+  );
+}
+
+export function remove(collection: Collection, id: number): void {
+  delete collections[collection][id];
 }
