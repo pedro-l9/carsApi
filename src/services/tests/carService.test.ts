@@ -1,6 +1,6 @@
 import { Car } from '../../types';
 import * as DB from '../../repositories/memoryDB';
-import * as carService from '../carService';
+import { carService } from '../';
 
 describe('Testing the carService', () => {
   const DUMMY_CAR: Car = Object.freeze({
