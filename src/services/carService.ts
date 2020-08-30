@@ -1,25 +1,22 @@
 import { Car, DAO } from '../types';
+import * as DB from '../repositories/memoryDB';
 
 export function addCar(car: Car): DAO<Car> {
-  console.log(car);
-  return {} as DAO<Car>;
+  return DB.insert('cars', car);
 }
 
 export function updateCar(updateData: Partial<Car>, carId: number): void {
-  console.log(updateData, carId);
-  return;
+  return DB.update('cars', updateData, carId);
 }
 
 export function deleteCar(carId: number): void {
-  console.log(carId);
-  return;
+  return DB.remove('cars', carId);
 }
 
 export function getCar(carId: number): DAO<Car> | undefined {
-  console.log(carId);
-  return {} as DAO<Car>;
+  return DB.get('cars', carId);
 }
 
 export function getAllCars(): DAO<Car>[] {
-  return [];
+  return DB.getAll('cars');
 }

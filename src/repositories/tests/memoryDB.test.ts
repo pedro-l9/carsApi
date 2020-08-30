@@ -30,12 +30,13 @@ describe('Testing the memoryDB database mockup', () => {
 
     it('Should update a previously inserted Item from the collection given there is already an item with the specified id', () => {
       const { id: driverId } = DB.insert<Driver>('drivers', DUMMY_DRIVER);
+
       DB.update<Driver>('drivers', UPDATED_DRIVER_DATA, driverId);
 
       const updatedDriver = DB.get<Driver>('drivers', driverId);
 
-      expect(updatedDriver.name).toEqual(UPDATED_DRIVER_DATA.name);
-      expect(updatedDriver.id).toEqual(driverId);
+      expect(updatedDriver?.name).toEqual(UPDATED_DRIVER_DATA.name);
+      expect(updatedDriver?.id).toEqual(driverId);
     });
   });
 

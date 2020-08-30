@@ -20,7 +20,7 @@ describe('Testing the carService', () => {
       const insertedCar = carService.addCar(DUMMY_CAR);
 
       expect(dbInsertSpy).toHaveBeenCalledTimes(1);
-      expect(dbInsertSpy).toHaveBeenCalledWith(DUMMY_CAR);
+      expect(dbInsertSpy).toHaveBeenCalledWith('cars', DUMMY_CAR);
       expect(insertedCar).toEqual(carDAO);
     });
   });
@@ -32,7 +32,7 @@ describe('Testing the carService', () => {
       const updateResponse = carService.updateCar(DUMMY_CAR, DUMMY_ID);
 
       expect(dbUpdateSpy).toHaveBeenCalledTimes(1);
-      expect(dbUpdateSpy).toHaveBeenCalledWith(DUMMY_CAR);
+      expect(dbUpdateSpy).toHaveBeenCalledWith('cars', DUMMY_CAR, DUMMY_ID);
       expect(updateResponse).toEqual(undefined);
     });
   });
@@ -44,7 +44,7 @@ describe('Testing the carService', () => {
       const removeResponse = carService.deleteCar(DUMMY_ID);
 
       expect(dbRemoveSpy).toHaveBeenCalledTimes(1);
-      expect(dbRemoveSpy).toHaveBeenCalledWith(DUMMY_ID);
+      expect(dbRemoveSpy).toHaveBeenCalledWith('cars', DUMMY_ID);
       expect(removeResponse).toEqual(undefined);
     });
   });
@@ -57,7 +57,7 @@ describe('Testing the carService', () => {
       const retrievedCar = carService.getCar(DUMMY_ID);
 
       expect(dbGetSpy).toHaveBeenCalledTimes(1);
-      expect(dbGetSpy).toHaveBeenCalledWith(DUMMY_ID);
+      expect(dbGetSpy).toHaveBeenCalledWith('cars', DUMMY_ID);
       expect(retrievedCar).toEqual(undefined);
     });
 
@@ -69,7 +69,7 @@ describe('Testing the carService', () => {
       const retrievedCar = carService.getCar(DUMMY_ID);
 
       expect(dbGetSpy).toHaveBeenCalledTimes(1);
-      expect(dbGetSpy).toHaveBeenCalledWith(DUMMY_ID);
+      expect(dbGetSpy).toHaveBeenCalledWith('cars', DUMMY_ID);
       expect(retrievedCar).toEqual(carDAO);
     });
   });
@@ -83,7 +83,7 @@ describe('Testing the carService', () => {
       const retrievedCars = carService.getAllCars();
 
       expect(dbGetAllSpy).toHaveBeenCalledTimes(1);
-      expect(dbGetAllSpy).toHaveBeenCalledWith();
+      expect(dbGetAllSpy).toHaveBeenCalledWith('cars');
       expect(retrievedCars).toEqual(allCars);
     });
   });
