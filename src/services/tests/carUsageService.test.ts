@@ -1,14 +1,23 @@
 import * as DB from '../../repositories/memoryDB';
 import { carUsageService } from '../';
-import { CarUsageDAO, DAO, Driver, Car } from '../../types';
+import { CarUsage, DAO, Driver, Car } from '../../types';
 import { UsageAlreadyOpen, CarAlreadyInUse } from '../../errors';
 
 describe('Testing the carUsageService', () => {
-  const DUMMY_OPEN_USAGE: CarUsageDAO = Object.freeze({
+  const DUMMY_OPEN_USAGE: DAO<CarUsage> = Object.freeze({
     id: 2,
     start: 1598816938448,
     driverId: 1,
     carId: 3,
+    description: '',
+  });
+
+  const DUMMY_CLOSED_USAGE: DAO<CarUsage> = Object.freeze({
+    id: 3,
+    start: 1598816938448,
+    finish: 1598819938448,
+    driverId: 99,
+    carId: 99,
     description: '',
   });
 
@@ -37,20 +46,20 @@ describe('Testing the carUsageService', () => {
   });
 
   describe('The openUsage function', () => {
-    it('Should throw an error when a driver tries to take more than one car', () => {
-      const dbGetAllSpy = jest.spyOn(DB, 'getAll');
-      dbGetAllSpy.mockReturnValue([DUMMY_OPEN_USAGE]);
+    const dbGetAllSpy = jest.spyOn(DB, 'getAll');
 
-      expect(
+    it('Should throw an error when a driver tries to take more than one car', () => {
+      dbGetAllSpy.mockReturnValue([DUMMY_OPEN_USAGE, DUMMY_CLOSED_USAGE]);
+
+      expect(() =>
         carUsageService.openUsage(DUMMY_DRIVER_1.id, DUMMY_CAR_1.id, '')
       ).toThrow(UsageAlreadyOpen);
     });
 
     it('Should thrown an error when a driver tries to take an already taken car', () => {
-      const dbGetAllSpy = jest.spyOn(DB, 'getAll');
-      dbGetAllSpy.mockReturnValue([DUMMY_OPEN_USAGE]);
+      dbGetAllSpy.mockReturnValue([DUMMY_OPEN_USAGE, DUMMY_CLOSED_USAGE]);
 
-      expect(
+      expect(() =>
         carUsageService.openUsage(DUMMY_DRIVER_2.id, DUMMY_CAR_1.id, '')
       ).toThrow(CarAlreadyInUse);
     });
@@ -62,9 +71,7 @@ describe('Testing the carUsageService', () => {
       const dateNowSpy = jest.spyOn(Date, 'now');
       dateNowSpy.mockReturnValue(mockNow);
 
-      const dbInsertSpy = jest.spyOn(DB, 'insert');
-      const dbGetAllSpy = jest.spyOn(DB, 'getAll');
-      dbGetAllSpy.mockReturnValue([DUMMY_OPEN_USAGE]);
+      dbGetAllSpy.mockReturnValue([DUMMY_OPEN_USAGE, DUMMY_CLOSED_USAGE]);
 
       const expectedUsage = {
         start: mockNow,
@@ -73,7 +80,12 @@ describe('Testing the carUsageService', () => {
         description: '',
       };
 
-      const newUsage = carUsageService.openUsage(
+      const newUsage = { ...expectedUsage, id: 1 };
+
+      const dbInsertSpy = jest.spyOn(DB, 'insert');
+      dbInsertSpy.mockReturnValue(newUsage);
+
+      const createdUsage = carUsageService.openUsage(
         DUMMY_DRIVER_2.id,
         DUMMY_CAR_2.id,
         ''
@@ -81,7 +93,7 @@ describe('Testing the carUsageService', () => {
 
       expect(dbInsertSpy).toHaveBeenCalledTimes(1);
       expect(dbInsertSpy).toHaveBeenCalledWith('carUsages', expectedUsage);
-      expect(newUsage).toEqual(expectedUsage);
+      expect(createdUsage).toEqual(newUsage);
     });
   });
 
@@ -115,12 +127,12 @@ describe('Testing the carUsageService', () => {
       const dbGetAllSpy = jest.spyOn(DB, 'getAll');
       dbGetAllSpy.mockImplementation((collection) => {
         switch (collection) {
-          case 'cars':
-            return [DUMMY_DRIVER_1, DUMMY_DRIVER_2];
           case 'drivers':
+            return [DUMMY_DRIVER_1, DUMMY_DRIVER_2];
+          case 'cars':
             return [DUMMY_CAR_1, DUMMY_CAR_2];
           case 'carUsages':
-            return [DUMMY_OPEN_USAGE];
+            return [DUMMY_OPEN_USAGE, DUMMY_CLOSED_USAGE];
         }
       });
 

@@ -1,7 +1,7 @@
-import { Car, CarUsageDAO, Driver, DAO } from '../types';
+import { Car, CarUsage, Driver, DAO } from '../types';
 
 type Collection = 'cars' | 'drivers' | 'carUsages';
-type Item = Car | Driver | CarUsageDAO;
+type Item = Car | Driver | CarUsage;
 
 type KeyValStorage<T> = {
   [key: string]: T;
@@ -10,7 +10,7 @@ type KeyValStorage<T> = {
 const collections = {
   cars: {} as KeyValStorage<Car>,
   drivers: {} as KeyValStorage<Driver>,
-  carUsages: {} as KeyValStorage<CarUsageDAO>,
+  carUsages: {} as KeyValStorage<CarUsage>,
 };
 
 export function insert<T extends Item>(

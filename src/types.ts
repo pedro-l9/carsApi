@@ -8,8 +8,7 @@ export type Driver = {
   name: string;
 };
 
-export type CarUsageDAO = {
-  id: number;
+export type CarUsage = {
   start: number;
   finish?: number;
   driverId: number;
@@ -17,12 +16,12 @@ export type CarUsageDAO = {
   description: string;
 };
 
-export type CarUsage = {
+export type CarUsageResponse = {
   id: number;
   start: number;
-  finish: number;
-  driver: Driver;
-  car: Car;
+  finish?: number;
+  driver: DAO<Driver>;
+  car: DAO<Car>;
   description: string;
 };
 
