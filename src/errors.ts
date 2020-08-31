@@ -23,14 +23,14 @@ export class CarAlreadyInUse extends HTTPError {
 
 export class NoCarWithId extends HTTPError {
   constructor(id: number) {
-    super(`There is no car with the id  ${id}`);
+    super(`There is no car with the id ${id}`);
     this.code = 400;
   }
 }
 
 export class NoDriverWithId extends HTTPError {
   constructor(id: number) {
-    super(`There is no driver with the id  ${id}`);
+    super(`There is no driver with the id ${id}`);
     this.code = 400;
   }
 }

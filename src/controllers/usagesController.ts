@@ -3,7 +3,6 @@ import { Request, Response } from 'express';
 import { carUsageService } from '../services';
 import { CarUsageRequest } from '../types';
 import { createUsageSchema } from './schemas';
-import { HTTPError } from '../errors';
 
 export async function openUsage(req: Request, res: Response): Promise<void> {
   const {
@@ -21,8 +20,6 @@ export async function openUsage(req: Request, res: Response): Promise<void> {
 
 export function finishUsage(req: Request, res: Response): void {
   const usageId = req.params['usageId'];
-
-  if (!usageId) throw new HTTPError('Bad request\n\nMissing usageId', 400);
 
   carUsageService.finishUsage(parseInt(usageId));
   res.sendStatus(204);

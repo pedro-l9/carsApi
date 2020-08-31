@@ -3,7 +3,6 @@ import { Request, Response } from 'express';
 import { driverService } from '../services';
 import { Driver } from '../types';
 import { createDriverSchema, updateDriverSchema } from './schemas';
-import { HTTPError } from '../errors';
 
 export function getAllDrivers(_: Request, res: Response): void {
   const allDrivers = driverService.getAllDrivers();
@@ -13,8 +12,6 @@ export function getAllDrivers(_: Request, res: Response): void {
 
 export function getDriver(req: Request, res: Response): void {
   const driverId = req.params['driverId'];
-
-  if (!driverId) throw new HTTPError('Bad request\n\nMissing driverId', 400);
 
   const driver = driverService.getDriver(parseInt(driverId));
 
@@ -38,16 +35,12 @@ export async function updateDriver(req: Request, res: Response): Promise<void> {
     abortEarly: false,
   });
 
-  if (!driverId) throw new HTTPError('Bad request\n\nMissing driverId', 400);
-
   driverService.updateDriver(updateData, parseInt(driverId));
   res.sendStatus(204);
 }
 
 export function deleteDriver(req: Request, res: Response): void {
   const driverId = req.params['driverId'];
-
-  if (!driverId) throw new HTTPError('Bad request\n\nMissing driverId', 400);
 
   driverService.deleteDriver(parseInt(driverId));
   res.sendStatus(204);

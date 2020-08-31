@@ -3,7 +3,6 @@ import { Request, Response } from 'express';
 import { carService } from '../services';
 import { createCarSchema, updateCarSchema } from './schemas';
 import { Car } from '../types';
-import { HTTPError } from '../errors';
 
 export function getAllCars(_: Request, res: Response): void {
   const allCars = carService.getAllCars();
@@ -13,8 +12,6 @@ export function getAllCars(_: Request, res: Response): void {
 
 export function getCar(req: Request, res: Response): void {
   const carId = req.params['carId'];
-
-  if (!carId) throw new HTTPError('Bad request\n\nMissing carId', 400);
 
   const car = carService.getCar(parseInt(carId));
 
@@ -38,16 +35,12 @@ export async function updateCar(req: Request, res: Response): Promise<void> {
     abortEarly: false,
   });
 
-  if (!carId) throw new HTTPError('Bad request\n\nMissing carId', 400);
-
   carService.updateCar(updateData, parseInt(carId));
   res.sendStatus(204);
 }
 
 export function deleteCar(req: Request, res: Response): void {
   const carId = req.params['carId'];
-
-  if (!carId) throw new HTTPError('Bad request\n\nMissing carId', 400);
 
   carService.deleteCar(parseInt(carId));
   res.sendStatus(204);
