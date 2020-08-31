@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc",
     "start": "ts-node-dev --respawn src/index.ts",
-    "test": "jest --watchAll --coverage"
+    "test": "jest --watchAll --coverage",
+    "test:list": "jest --verbose"
   },
   "author": "",
   "license": "ISC",
