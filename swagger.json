@@ -1,0 +1,558 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Cars Api",
+    "contact": {},
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/api",
+      "variables": {}
+    }
+  ],
+  "paths": {
+    "/cars": {
+      "post": {
+        "tags": ["Cars"],
+        "summary": "Create Car",
+        "operationId": "CreateCar",
+        "parameters": [],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCar"
+              },
+              "example": {
+                "plate": "ABC1234",
+                "color": "Red",
+                "brand": "Toyota"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Car"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      },
+      "get": {
+        "tags": ["Cars"],
+        "summary": "Get all cars",
+        "operationId": "Getallcars",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Car"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/cars/{carId}": {
+      "get": {
+        "tags": ["Cars"],
+        "summary": "Get Car",
+        "operationId": "GetCar",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "carId",
+            "schema": { "type": "integer" },
+            "required": true,
+            "description": "Id of the car to get"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Car"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      },
+      "put": {
+        "tags": ["Cars"],
+        "summary": "Update Car",
+        "operationId": "UpdateCar",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "carId",
+            "schema": { "type": "integer" },
+            "required": true,
+            "description": "Id of the car to be updated"
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCar"
+              },
+              "example": {
+                "brand": "Fiat"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "deprecated": false
+      },
+      "delete": {
+        "tags": ["Cars"],
+        "summary": "Delete Car",
+        "operationId": "DeleteCar",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "carId",
+            "schema": { "type": "integer" },
+            "required": true,
+            "description": "Id of the car to be deleted"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/drivers": {
+      "post": {
+        "tags": ["Drivers"],
+        "summary": "Create Driver",
+        "operationId": "CreateDriver",
+        "parameters": [],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDriver"
+              },
+              "example": {
+                "name": "Pedro"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Driver"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      },
+      "get": {
+        "tags": ["Drivers"],
+        "summary": "Get all Drivers",
+        "operationId": "GetallDrivers",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Driver"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/drivers/{driverId}": {
+      "get": {
+        "tags": ["Drivers"],
+        "summary": "Get Driver",
+        "operationId": "GetDriver",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "driverId",
+            "schema": { "type": "integer" },
+            "required": true,
+            "description": "Id of the driver to get"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Driver"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      },
+      "put": {
+        "tags": ["Drivers"],
+        "summary": "Update Driver",
+        "operationId": "UpdateDriver",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "driverId",
+            "schema": { "type": "integer" },
+            "required": true,
+            "description": "Id of the driver to be updated"
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDriver"
+              },
+              "example": {
+                "name": "Paulo"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "deprecated": false
+      },
+      "delete": {
+        "tags": ["Drivers"],
+        "summary": "Delete Driver",
+        "operationId": "DeleteDriver",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "driverId",
+            "schema": { "type": "integer" },
+            "required": true,
+            "description": "Id of the driver to be deleted"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/usages": {
+      "get": {
+        "tags": ["Usages"],
+        "summary": "Get All the Usage Records",
+        "operationId": "GetAllUsages",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Usage"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      },
+      "post": {
+        "tags": ["Usages"],
+        "summary": "Open a new Usage Record",
+        "operationId": "OpenUsage",
+        "parameters": [],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OpenUsage"
+              },
+              "example": {
+                "driverId": 0,
+                "carId": 0,
+                "description": "teste"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/usages/{usageId}": {
+      "put": {
+        "tags": ["Usages"],
+        "summary": "Finish a Usage Record",
+        "operationId": "FinishUsage",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "usageId",
+            "schema": { "type": "integer" },
+            "required": true,
+            "description": "Id of the usage to be finished"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "deprecated": false
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CreateCar": {
+        "title": "CreateCar",
+        "required": ["plate", "color", "brand"],
+        "type": "object",
+        "properties": {
+          "plate": {
+            "type": "string"
+          },
+          "color": {
+            "type": "string"
+          },
+          "brand": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "plate": "ABC1234",
+          "color": "Red",
+          "brand": "Toyota"
+        }
+      },
+      "UpdateCar": {
+        "title": "UpdateCar",
+        "type": "object",
+        "properties": {
+          "plate": {
+            "type": "string"
+          },
+          "color": {
+            "type": "string"
+          },
+          "brand": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "brand": "Fiat"
+        }
+      },
+      "Car": {
+        "title": "Car",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "int32"
+          },
+          "plate": {
+            "type": "string"
+          },
+          "color": {
+            "type": "string"
+          },
+          "brand": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "id": 0,
+          "plate": "ABC1234",
+          "color": "Red",
+          "brand": "Toyota"
+        }
+      },
+      "CreateDriver": {
+        "title": "CreateDriver",
+        "required": ["name"],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "name": "Pedro"
+        }
+      },
+      "UpdateDriver": {
+        "title": "UpdateDriver",
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "name": "Paulo"
+        }
+      },
+      "Driver": {
+        "title": "Driver",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "int32"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "id": 0,
+          "name": "Pedro"
+        }
+      },
+      "OpenUsage": {
+        "title": "OpenUsage",
+        "required": ["driverId", "carId", "description"],
+        "type": "object",
+        "properties": {
+          "driverId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "carId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "driverId": 0,
+          "carId": 0,
+          "description": "teste"
+        }
+      },
+      "Usage": {
+        "title": "Usage",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "int32"
+          },
+          "start": {
+            "type": "int32"
+          },
+          "finish": {
+            "type": "int32"
+          },
+          "car": {
+            "$ref": "#/components/schemas/Car"
+          },
+          "driver": {
+            "$ref": "#/components/schemas/Driver"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "id": 0,
+          "start": 1598841157986,
+          "finish": 1598881157986,
+          "car": {
+            "id": 0,
+            "plate": "ABC1234",
+            "color": "Red",
+            "brand": "Toyota"
+          },
+          "driver": {
+            "id": 0,
+            "name": "Pedro"
+          },
+          "description": "Needed a car for work"
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Cars",
+      "description": "Operations related to Cars"
+    },
+    {
+      "name": "Drivers",
+      "description": "Operations related to Drivers"
+    },
+    {
+      "name": "Usages",
+      "description": "Operations related to the Car Usage Records"
+    }
+  ]
+}

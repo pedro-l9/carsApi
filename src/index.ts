@@ -1,4 +1,6 @@
 import express, { ErrorRequestHandler } from 'express';
+import swaggerUi from 'swagger-ui-express';
+import swaggerSpec from '../swagger.json';
 
 import router from './router';
 import errorHandlingMiddleware from './middlewares/errorHandlingMiddleware';
@@ -9,6 +11,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/api', router);
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use(errorHandlingMiddleware as ErrorRequestHandler);
 
