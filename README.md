@@ -6,6 +6,7 @@ It features:
 
     - Schema Validation
     - Automated Unit Tests
+    - Automated Integration Tests
     - Live Documentation
 
 # Getting Started
