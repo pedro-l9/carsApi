@@ -11,8 +11,6 @@ export class UsageAlreadyOpen extends HTTPError {
   constructor() {
     super('This user already has a car usage open');
     this.code = 403;
-
-    Object.setPrototypeOf(this, UsageAlreadyOpen.prototype);
   }
 }
 
@@ -20,7 +18,19 @@ export class CarAlreadyInUse extends HTTPError {
   constructor() {
     super('This car is already in use by another driver');
     this.code = 403;
+  }
+}
 
-    Object.setPrototypeOf(this, CarAlreadyInUse.prototype);
+export class NoCarWithId extends HTTPError {
+  constructor(id: number) {
+    super(`There is no car with the id  ${id}`);
+    this.code = 400;
+  }
+}
+
+export class NoDriverWithId extends HTTPError {
+  constructor(id: number) {
+    super(`There is no driver with the id  ${id}`);
+    this.code = 400;
   }
 }

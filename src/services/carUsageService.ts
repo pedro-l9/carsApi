@@ -1,6 +1,11 @@
 import { DAO, CarUsage, CarUsageResponse, Car, Driver } from '../types';
 import * as DB from '../repositories/memoryDB';
-import { CarAlreadyInUse, UsageAlreadyOpen } from '../errors';
+import {
+  CarAlreadyInUse,
+  UsageAlreadyOpen,
+  NoCarWithId,
+  NoDriverWithId,
+} from '../errors';
 
 export function openUsage(
   driverId: number,
@@ -13,6 +18,12 @@ export function openUsage(
       if (usage.carId === carId) throw new CarAlreadyInUse();
     }
   });
+
+  const referredCar = DB.get('cars', carId);
+  const referredDriver = DB.get('drivers', driverId);
+
+  if (referredCar === undefined) throw new NoCarWithId(carId);
+  if (referredDriver === undefined) throw new NoDriverWithId(driverId);
 
   return DB.insert<CarUsage>('carUsages', {
     start: Date.now(),

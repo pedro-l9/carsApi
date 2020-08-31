@@ -1,7 +1,12 @@
 import * as DB from '../../repositories/memoryDB';
 import { carUsageService } from '../';
 import { CarUsage, DAO, Driver, Car } from '../../types';
-import { UsageAlreadyOpen, CarAlreadyInUse } from '../../errors';
+import {
+  UsageAlreadyOpen,
+  CarAlreadyInUse,
+  NoDriverWithId,
+  NoCarWithId,
+} from '../../errors';
 
 describe('Testing the carUsageService', () => {
   const DUMMY_OPEN_USAGE: DAO<CarUsage> = Object.freeze({
@@ -48,6 +53,32 @@ describe('Testing the carUsageService', () => {
   describe('The openUsage function', () => {
     const dbGetAllSpy = jest.spyOn(DB, 'getAll');
 
+    it('Should throw an error when the received driverId does not exist', () => {
+      dbGetAllSpy.mockReturnValue([]);
+      jest.spyOn(DB, 'get').mockImplementation((collection, _) => {
+        if (collection === 'cars') return DUMMY_CAR_2;
+        if (collection === 'drivers') return undefined;
+        return undefined;
+      });
+
+      expect(() =>
+        carUsageService.openUsage(DUMMY_DRIVER_1.id, DUMMY_CAR_1.id, '')
+      ).toThrow(NoDriverWithId);
+    });
+
+    it('Should throw an error when the received carId does not exist', () => {
+      dbGetAllSpy.mockReturnValue([]);
+      jest.spyOn(DB, 'get').mockImplementation((collection, _) => {
+        if (collection === 'cars') return undefined;
+        if (collection === 'drivers') return DUMMY_DRIVER_2;
+        return undefined;
+      });
+
+      expect(() =>
+        carUsageService.openUsage(DUMMY_DRIVER_1.id, DUMMY_CAR_1.id, '')
+      ).toThrow(NoCarWithId);
+    });
+
     it('Should throw an error when a driver tries to take more than one car', () => {
       dbGetAllSpy.mockReturnValue([DUMMY_OPEN_USAGE, DUMMY_CLOSED_USAGE]);
 
@@ -72,6 +103,11 @@ describe('Testing the carUsageService', () => {
       dateNowSpy.mockReturnValue(mockNow);
 
       dbGetAllSpy.mockReturnValue([DUMMY_OPEN_USAGE, DUMMY_CLOSED_USAGE]);
+      jest.spyOn(DB, 'get').mockImplementation((collection, _) => {
+        if (collection === 'cars') return DUMMY_CAR_2;
+        if (collection === 'drivers') return DUMMY_DRIVER_2;
+        return undefined;
+      });
 
       const expectedUsage = {
         start: mockNow,
