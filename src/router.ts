@@ -5,23 +5,27 @@ import {
   driversController,
   usagesController,
 } from './controllers';
+import errorWrapper from './utils/errorWrapper';
 
 const router = express.Router();
 
-router.get('/cars', carsController.getAllCars);
-router.get('/cars/:carId', carsController.getCar);
-router.post('/cars', carsController.createCar);
-router.put('/cars/:carId', carsController.updateCar);
-router.delete('/cars/:carId', carsController.deleteCar);
+router.get('/cars', errorWrapper(carsController.getAllCars));
+router.get('/cars/:carId', errorWrapper(carsController.getCar));
+router.post('/cars', errorWrapper(carsController.createCar));
+router.put('/cars/:carId', errorWrapper(carsController.updateCar));
+router.delete('/cars/:carId', errorWrapper(carsController.deleteCar));
 
-router.get('/drivers', driversController.getAllDrivers);
-router.get('/drivers/:driverId', driversController.getDriver);
-router.post('/drivers', driversController.createDriver);
-router.put('/drivers/:driverId', driversController.updateDriver);
-router.delete('/drivers/:driverId', driversController.deleteDriver);
+router.get('/drivers', errorWrapper(driversController.getAllDrivers));
+router.get('/drivers/:driverId', errorWrapper(driversController.getDriver));
+router.post('/drivers', errorWrapper(driversController.createDriver));
+router.put('/drivers/:driverId', errorWrapper(driversController.updateDriver));
+router.delete(
+  '/drivers/:driverId',
+  errorWrapper(driversController.deleteDriver)
+);
 
-router.get('/usages', usagesController.getAllUsages);
-router.post('/usages', usagesController.openUsage);
-router.put('/usages/:usageId', usagesController.finishUsage);
+router.get('/usages', errorWrapper(usagesController.getAllUsages));
+router.post('/usages', errorWrapper(usagesController.openUsage));
+router.put('/usages/:usageId', errorWrapper(usagesController.finishUsage));
 
 export default router;
