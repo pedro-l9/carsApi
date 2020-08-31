@@ -9,7 +9,7 @@ export class HTTPError extends Error {
 
 export class UsageAlreadyOpen extends HTTPError {
   constructor() {
-    super('This user already has a car usage open');
+    super('This driver already has a car usage open');
     this.code = 403;
   }
 }
