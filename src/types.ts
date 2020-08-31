@@ -16,6 +16,12 @@ export type CarUsage = {
   description: string;
 };
 
+export type CarUsageRequest = {
+  driverId: number;
+  carId: number;
+  description: string;
+};
+
 export type CarUsageResponse = {
   id: number;
   start: number;
