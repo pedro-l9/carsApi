@@ -1,6 +1,6 @@
 # Cars Api
 
-This simple API was created with the purpose of exercising some principles on NodeJS API devlopment.
+This simple API was created with the purpose of exercising some principles on NodeJS API development.
 
 It features:
 
