@@ -52,8 +52,8 @@ afterAll(() => {
 
 describe('POST /api/usages - Create a usage', () => {
   it('Should reject calls with missing properties with a Bad request', () => {
-    const { start: _, id: usageId, ...cleanUsage } = DUMMY_OPEN_USAGE;
-    const { carId: __, ...usageWithoutCarId } = cleanUsage;
+    const { start: _, id: __, ...cleanUsage } = DUMMY_OPEN_USAGE;
+    const { carId: ___, ...usageWithoutCarId } = cleanUsage;
 
     return request(app)
       .post('/api/usages')
@@ -62,8 +62,8 @@ describe('POST /api/usages - Create a usage', () => {
       .expect(400, `Bad request\n\n"carId" is required`);
   });
 
-  it('Should not allow the creation of a usage for a driver that does not exist', async () => {
-    const { start: _, id: usageId, ...cleanUsage } = DUMMY_OPEN_USAGE;
+  it('Should not allow the creation of a usage for a driver that does not exist', () => {
+    const { start: _, id: __, ...cleanUsage } = DUMMY_OPEN_USAGE;
     jest
       .spyOn(DB, 'get')
       .mockImplementation((collection) =>
@@ -77,8 +77,8 @@ describe('POST /api/usages - Create a usage', () => {
       .expect(400, `There is no driver with the id ${cleanUsage.driverId}`);
   });
 
-  it('Should not allow the creation of a usage for a car that does not exist', async () => {
-    const { start: _, id: usageId, ...cleanUsage } = DUMMY_OPEN_USAGE;
+  it('Should not allow the creation of a usage for a car that does not exist', () => {
+    const { start: _, id: __, ...cleanUsage } = DUMMY_OPEN_USAGE;
     jest
       .spyOn(DB, 'get')
       .mockImplementation((collection) =>
@@ -102,8 +102,9 @@ describe('POST /api/usages - Create a usage', () => {
     jest.spyOn(DB, 'get').mockImplementation((collection) => {
       if (collection === 'drivers') return DUMMY_DRIVER_1;
       if (collection === 'cars') return DUMMY_CAR_1;
+      else return undefined;
     });
-    const { start: _, id: usageId, ...cleanUsage } = DUMMY_OPEN_USAGE;
+    const { start: _, id: __, ...cleanUsage } = DUMMY_OPEN_USAGE;
 
     return request(app)
       .post('/api/usages')
@@ -121,7 +122,7 @@ describe('POST /api/usages - Create a usage', () => {
 });
 
 describe('GET /api/usages - Get all usages', () => {
-  it('Should return all the usages in the database', async () => {
+  it('Should return all the usages in the database', () => {
     const { driverId: _, carId: __, ...cleanUsage } = DUMMY_OPEN_USAGE;
 
     jest.spyOn(DB, 'getAll').mockImplementation((collection) => {
@@ -135,7 +136,7 @@ describe('GET /api/usages - Get all usages', () => {
       }
     });
 
-    const { body } = await request(app)
+    return request(app)
       .get('/api/usages')
       .expect('Content-Type', /json/)
       .expect(200, [
@@ -145,7 +146,7 @@ describe('GET /api/usages - Get all usages', () => {
 });
 
 describe('PUT /api/usages/:usageId - Finish a usage', () => {
-  it('Should update the usage with the finish date as the current time', async () => {
+  it('Should update the usage with the finish date as the current time', () => {
     const mockNow = 1598816938448;
     const usageId = 1;
     jest.spyOn(Date, 'now').mockReturnValue(mockNow);

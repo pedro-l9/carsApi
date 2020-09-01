@@ -57,7 +57,7 @@ describe('POST /api/drivers - Create a driver', () => {
   it('Should add a driver to the database', async () => {
     const dbInsertSpy = jest.spyOn(DB, 'insert');
     dbInsertSpy.mockReturnValue(DUMMY_DRIVER);
-    const { id: driverId, ...mockdriver } = DUMMY_DRIVER;
+    const { id: _, ...mockdriver } = DUMMY_DRIVER;
 
     return request(app)
       .post('/api/drivers')
