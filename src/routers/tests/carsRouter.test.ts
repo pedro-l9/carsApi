@@ -49,7 +49,7 @@ describe('GET /api/cars/:carId - Get a specific car', () => {
 
 describe('POST /api/cars - Create a car', () => {
   it('Should reject calls with missing properties with a Bad request', () => {
-    const { id: carId, plate: _, ...carWithoutPlate } = DUMMY_CAR;
+    const { id: _, plate: __, ...carWithoutPlate } = DUMMY_CAR;
 
     return request(app)
       .post('/api/cars')
@@ -61,7 +61,7 @@ describe('POST /api/cars - Create a car', () => {
   it('Should add a car to the database', async () => {
     const dbInsertSpy = jest.spyOn(DB, 'insert');
     dbInsertSpy.mockReturnValue(DUMMY_CAR);
-    const { id: carId, ...mockCar } = DUMMY_CAR;
+    const { id: _, ...mockCar } = DUMMY_CAR;
 
     return request(app)
       .post('/api/cars')
